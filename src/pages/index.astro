@@ -1,72 +1,62 @@
 ---
 ---
----
----
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>Para mi cielo</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background: white;
-        font-family: sans-serif;
-        text-align: center;
-      }
-      h1 {
-        font-size: 50px;
-        font-weight: bold;
-      }
-      .corazon {
-        font-size: 120px;
-        margin-top: 20px;
-        animation: latido 1.2s infinite;
-        cursor: pointer;
-      }
-      @keyframes latido {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.3); }
-        100% { transform: scale(1); }
-      }
-      button {
-        margin-top: 30px;
-        padding: 15px 30px;
-        font-size: 18px;
-        border-radius: 30px;
-        border: none;
-        background: #ff4d6d;
-        color: white;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Hola mi cielo te amo mucho 😘😘😘😘 🔥</h1>
-    <div class="corazon" id="corazon">❤️</div>
-    
-    <button id="btnMusica">Toca aquí mi cielo 🎶</button>
-    
-    <audio id="audio" loop>
-      <source src="/cancion.mp3" type="audio/mpeg" />
-    </audio>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Para mi cielo</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  body { margin:0; text-align:center; font-family:sans-serif; background:#fff0f3; }
+  h1 { font-size: 2rem; color:#ff3e6c; margin-top:30px; }
+  #corazon { font-size: 90px; cursor:pointer; animation: latir 1s infinite; display:inline-block; user-select:none; }
+  @keyframes latir { 0%{transform:scale(1)} 50%{transform:scale(1.35)} 100%{transform:scale(1)} }
+  #boton { background:#ff3e6c; color:white; border:none; padding:16px 28px; border-radius:30px; font-size:18px; cursor:pointer; margin:20px; box-shadow: 0 5px 15px rgba(255,62,108,0.4); }
+  #map { height: 450px; width: 90%; max-width: 650px; margin: 30px auto; border-radius: 25px; border: 4px solid #ff3e6c; z-index:1; }
+  .corazon-mapa { font-size:30px; }
+</style>
+</head>
+<body>
 
-    <script>
-      const btn = document.getElementById('btnMusica');
-      const audio = document.getElementById('audio');
-      const corazon = document.getElementById('corazon');
-      
-      function tocar() {
-        audio.play();
-        btn.style.display = 'none';
-      }
-      
-      btn.addEventListener('click', tocar);
-      corazon.addEventListener('click', tocar);
-    </script>
-  </body>
+<h1>Hola mi cielo te amo mucho 😘😘😘😘 🔥</h1>
+<div id="corazon">❤️</div>
+<br>
+<button id="boton">Toca aquí mi cielo 💦</button>
+<audio id="cancion" src="/cancion.mp3"></audio>
+
+<h2 style="color:#ff3e6c; margin-top:40px;">Nuestra historia en el mapa 🗺️❤️</h2>
+<div id="map"></div>
+<p style="color:#666;">Aquí empezó todo y aquí seguimos, mi amor</p>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const cancion = document.getElementById('cancion');
+  document.getElementById('corazon').addEventListener('click', () => cancion.play());
+  document.getElementById('boton').addEventListener('click', () => cancion.play());
+
+  // --- MAPA GRATIS ---
+  // Coordenadas de Madrid / Funza, Cundinamarca
+  const dondeNosConocimos = [4.731, -74.26]; 
+
+  const map = L.map('map').setView(dondeNosConocimos, 14);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // Icono de corazón
+  const iconoCorazon = L.divIcon({
+    className: 'corazon-mapa',
+    html: '❤️',
+    iconSize: [30, 30],
+    iconAnchor: [15, 30]
+  });
+
+  L.marker(dondeNosConocimos, {icon: iconoCorazon}).addTo(map)
+    .bindPopup("<b>Aquí empezó todo, mi cielo ❤️</b><br>Te amo").openPopup();
+
+  // PUEDES AGREGAR MÁS LUGARES ASI:
+  // L.marker([4.711, -74.0721], {icon: iconoCorazon}).addTo(map).bindPopup("Nuestra primera cita 🔥");
+</script>
+</body>
 </html>
